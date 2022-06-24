@@ -4,7 +4,7 @@ const axios = require("axios").default;
 // imports
 const { version } = require("./package.json");
 
-fastify.register(require('@fastify/redis'), { host: '127.0.0.1' })
+fastify.register(require("@fastify/redis"), { host: "127.0.0.1" });
 fastify.register(require("@fastify/cors"), {
   origin: "*",
   methods: "*",
@@ -21,11 +21,17 @@ const genID = (len = 5) => {
 };
 
 // static methods for testing
-fastify.all("/favicon.ico", (req, reply) => reply.status(404).send(""));
+fastify.all("/favicon.ico", (req, reply) => reply.status(404).send());
 fastify.all("/ping", (req, reply) => reply.send("pong"));
 fastify.all("/version", (req, reply) => reply.send(version));
 fastify.all("/pixel.gif", (req, reply) =>
   reply.send(`GIF89a     !ù  ,       L ;`).header("Content-Type", "image/gif")
+);
+fastify.all("/code/:code/*", (req, reply) =>
+  reply.code(Number(req.params.code)).send()
+);
+fastify.all("/code/:code", (req, reply) =>
+  reply.code(Number(req.params.code)).send()
 );
 
 // helper
@@ -132,7 +138,7 @@ fastify.all("/replay", (req, reply) =>
   )
 );
 
-fastify.get("*", (req, reply) => reply.redirect("/ping"));
+fastify.get("*", (req, reply) => reply.send("pong"));
 
 fastify.listen({ port: process.env.PORT });
 console.log("server started on port " + process.env.PORT);
