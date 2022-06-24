@@ -19,6 +19,7 @@ const genID = (len = 5) => {
     result += SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
   return result;
 };
+const ttl = 3600; // 1 hour
 
 // static methods for testing
 fastify.all("/favicon.ico", (req, reply) => reply.status(404).send());
@@ -58,6 +59,7 @@ const putReplay = (req, reply) => {
   const id = genID();
   const replay = createReplay(req);
   redis.set(id, JSON.stringify(replay));
+  redis.ttl(id, ttl)
   reply.send({ id });
 };
 
@@ -115,6 +117,7 @@ const sendReplay = async (req, reply) => {
       const { data, status, headers } = res;
       const replay = { body: data, status, headers };
       redis.set(id, JSON.stringify(replay));
+      redis.ttl(id, ttl)
       reply.send({ id, replay });
     })
     .catch((err) => reply.send(err));
