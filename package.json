@@ -1,0 +1,23 @@
+{
+  "name": "http-replay",
+  "version": "1.0.0",
+  "description": "tiny http server for replaying responses",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mchangrh/http-replay.git"
+  },
+  "author": "Michael Chang <michael@mchang.name>",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/cors": "^8.0.0",
+    "@fastify/redis": "^6.0.0",
+    "axios": "^0.27.2",
+    "dotenv": "^16.0.1",
+    "fastify": "^4.1.0"
+  }
+}
